@@ -56,4 +56,4 @@ test-suite crud-ex-backend-servant-test
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/crud-ex-backend-servant
+  location: https://github.com/rpeszek/crud-ex-backend-servant
