@@ -1,0 +1,59 @@
+name:                crud-ex-backend-servant
+version:             0.1.0.0
+synopsis:            Initial project template from stack
+description:         Please see README.md
+homepage:            https://github.com/rpeszek/crud-ex-backend-servant.git
+license:             BSD3
+license-file:        LICENSE
+author:              Robert Peszek
+maintainer:          example@example.com
+copyright:           2017 Robert Peszek
+category:            Web
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src-api, src-server
+  exposed-modules:     CrudEx.Api.Common
+                     , CrudEx.Api.User 
+                     , CrudEx.Api.Thing
+                     , CrudEx.Api
+                     , CrudEx.Handlers.User
+                     , CrudEx.Handlers.Thing
+                     , CrudEx.Handlers
+                     , CrudEx.Server
+  build-depends:       base >= 4.7 && < 5
+                     , text
+                     , aeson
+                     , either
+                     , servant-server
+                     , wai
+                     , wai-cors
+                     , warp
+                     , transformers
+                     , stm
+                     , stm-containers
+                     , list-t
+  default-language:    Haskell2010
+
+executable crud-ex-backend-servant-exe
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , crud-ex-backend-servant
+  default-language:    Haskell2010
+
+test-suite crud-ex-backend-servant-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       base
+                     , crud-ex-backend-servant
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+source-repository head
+  type:     git
+  location: https://github.com/githubuser/crud-ex-backend-servant
