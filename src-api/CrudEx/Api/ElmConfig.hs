@@ -2,26 +2,25 @@
 {-# LANGUAGE TypeOperators   #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
--- {-# LANGUAGE DeriveGeneric #-}
-
+{-# LANGUAGE QuasiQuotes #-}
+ 
 module CrudEx.Api.ElmConfig (
    ElmConfig (..)
  , ElmConfigApi
 ) where
 
+import Servant
+import Servant.HTML.Lucid (HTML)
+import Lucid
+import NeatInterpolation (text)
 import Data.Aeson
 import Data.Aeson.TH
 import qualified Data.Aeson.Encode as AE
---import GHC.Generics (Generic)
-import Servant
 import Data.Text (Text)
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as TE
 import Data.Text.Lazy (toStrict)
 import Data.Text.Lazy.Builder (toLazyText)
 import qualified CrudEx.Api.ElmConfig.Logger as L
-import Servant.HTML.Lucid (HTML)
-import Lucid
+ 
 
 type ElmConfigApi = "elm" :> Get '[HTML] ElmConfig
 
@@ -31,6 +30,7 @@ data ElmConfig = ElmConfig {
     , layout :: Text
   } deriving (Show)
 
+--JSON representation is custom, does not include elmProgName
 instance ToJSON ElmConfig where
   toJSON (ElmConfig _ lc layout) = object
     [ "logConfig" .= lc
@@ -42,9 +42,13 @@ toJs = toStrict . toLazyText . AE.encodeToTextBuilder . toJSON
 
 toElmScript :: ElmConfig -> Text
 toElmScript elmConfig = 
-    "var conf = " `T.append` (toJs elmConfig) `T.append`
-    "; \nvar node = document.getElementById('elm-div');\n\
-     \var app = Elm." `T.append` (elmProgName elmConfig) `T.append` ".embed(node, conf);"
+     let elmProgNm = elmProgName elmConfig
+         configJs = toJs elmConfig
+     in [text|
+         var conf = $configJs;
+         var node = document.getElementById('elm-div');
+         var app = Elm.$elmProgNm.embed(node, conf);
+     |]
 
 instance ToHtml ElmConfig where
   toHtml elmConfig = html_ $ do
