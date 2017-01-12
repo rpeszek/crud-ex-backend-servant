@@ -1,13 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module CrudEx.Server
-    ( startApp
+    ( runApp
     ) where
 
 import Control.Monad.Trans.Except
 import Network.Wai
 import Network.Wai.Handler.Warp (run)
-import Network.Wai.Middleware.Cors -- (simpleCors)
+import Network.Wai.Middleware.RequestLogger (logStdoutDev)
+import Network.Wai.Middleware.Cors (CorsResourcePolicy(..), cors, simpleHeaders)
 import Servant
 import CrudEx.Handlers (handlers, initStore, AppStore)
 import CrudEx.Api (API)
@@ -19,10 +20,12 @@ app appStore = serve api $ handlers appStore
 api :: Proxy API
 api = Proxy
 
-startApp :: Int -> IO ()
-startApp port = do
+runApp :: Int -> Bool -> IO ()
+runApp port elmCors = 
+  let corsMiddlewhere = if elmCors then elmReactorCors else id
+  in do
        appStore <- initStore
-       run port $ elmReactorCors $ app appStore -- run port app thingStore
+       run port $ corsMiddlewhere $ logStdoutDev $ app appStore -- run port app thingStore
 
 elmReactorCors :: Middleware
 elmReactorCors = cors $ const (Just elmReactorResourcePolicy)

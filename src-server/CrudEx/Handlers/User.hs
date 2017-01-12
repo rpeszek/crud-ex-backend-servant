@@ -4,7 +4,8 @@ module CrudEx.Handlers.User
     ( userHandlers
     ) where
 
-import Control.Monad.Trans.Except
+import Control.Monad.IO.Class (liftIO, MonadIO)
+--import Control.Monad.Trans.Except
 import Servant
 import CrudEx.Api
 
@@ -17,6 +18,6 @@ tempUsers = [ Entity 1 $ User "Alonzo" "Church"
             , Entity 2 $ User "Alan" "Turing"
             ]
 
-getUsersH :: ExceptT ServantErr IO [UserEntity]
+getUsersH :: MonadIO m => m [UserEntity]
 getUsersH = return tempUsers
     

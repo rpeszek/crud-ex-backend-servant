@@ -18,23 +18,30 @@ library
   exposed-modules:     CrudEx.Api.Common
                      , CrudEx.Api.User 
                      , CrudEx.Api.Thing
+                     , CrudEx.Api.ElmConfig
+                     , CrudEx.Api.ElmConfig.Logger
                      , CrudEx.Api
                      , CrudEx.Handlers.User
                      , CrudEx.Handlers.Thing
+                     , CrudEx.Handlers.ElmConfig
                      , CrudEx.Handlers
                      , CrudEx.Server
+                     , CrudEx.Config
   build-depends:       base >= 4.7 && < 5
                      , text
                      , aeson
                      , either
                      , servant-server
+                     , servant-lucid
                      , wai
                      , wai-cors
+                     , wai-extra
                      , warp
                      , transformers
                      , stm
                      , stm-containers
                      , list-t
+                     , lucid
   default-language:    Haskell2010
 
 executable crud-ex-backend-servant-exe
