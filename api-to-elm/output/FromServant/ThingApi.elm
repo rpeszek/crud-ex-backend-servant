@@ -39,8 +39,8 @@ decodeThingEntity =
         |> required "id" int
         |> required "entity" decodeThing
 
-getThings : Http.Request (List (ThingEntity))
-getThings =
+getThings : String -> Http.Request (List (ThingEntity))
+getThings urlBase =
     Http.request
         { method =
             "GET"
@@ -48,7 +48,7 @@ getThings =
             []
         , url =
             String.join "/"
-                [ "http://localhost:3000"
+                [ urlBase
                 , "things"
                 ]
         , body =
@@ -61,8 +61,8 @@ getThings =
             False
         }
 
-postThings : Thing -> Http.Request (ThingEntity)
-postThings body =
+postThings : String -> Thing -> Http.Request (ThingEntity)
+postThings urlBase body =
     Http.request
         { method =
             "POST"
@@ -70,7 +70,7 @@ postThings body =
             []
         , url =
             String.join "/"
-                [ "http://localhost:3000"
+                [ urlBase
                 , "things"
                 ]
         , body =
@@ -83,8 +83,8 @@ postThings body =
             False
         }
 
-getThingsByThingId : Int -> Http.Request (Maybe (Thing))
-getThingsByThingId thingId =
+getThingsByThingId : String -> Int -> Http.Request (Maybe (Thing))
+getThingsByThingId urlBase thingId =
     Http.request
         { method =
             "GET"
@@ -92,7 +92,7 @@ getThingsByThingId thingId =
             []
         , url =
             String.join "/"
-                [ "http://localhost:3000"
+                [ urlBase
                 , "things"
                 , thingId |> toString |> Http.encodeUri
                 ]
@@ -106,8 +106,8 @@ getThingsByThingId thingId =
             False
         }
 
-putThingsByThingId : Int -> Thing -> Http.Request (Thing)
-putThingsByThingId thingId body =
+putThingsByThingId : String -> Int -> Thing -> Http.Request (Thing)
+putThingsByThingId urlBase thingId body =
     Http.request
         { method =
             "PUT"
@@ -115,7 +115,7 @@ putThingsByThingId thingId body =
             []
         , url =
             String.join "/"
-                [ "http://localhost:3000"
+                [ urlBase
                 , "things"
                 , thingId |> toString |> Http.encodeUri
                 ]
@@ -129,8 +129,8 @@ putThingsByThingId thingId body =
             False
         }
 
-deleteThingsByThingId : Int -> Http.Request (())
-deleteThingsByThingId thingId =
+deleteThingsByThingId : String -> Int -> Http.Request (())
+deleteThingsByThingId urlBase thingId =
     Http.request
         { method =
             "DELETE"
@@ -138,7 +138,7 @@ deleteThingsByThingId thingId =
             []
         , url =
             String.join "/"
-                [ "http://localhost:3000"
+                [ urlBase
                 , "things"
                 , thingId |> toString |> Http.encodeUri
                 ]

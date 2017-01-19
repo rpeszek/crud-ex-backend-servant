@@ -10,7 +10,7 @@ import           Elm          (Spec (Spec), specsToDir, toElmDecoderSource,
                                toElmEncoderSource, toElmTypeSource, ElmType (..))
 
 import qualified Elm as E
-import           Servant.Elm  (ElmOptions (..), Proxy (Proxy),
+import           Servant.Elm  (ElmOptions (..), Proxy (Proxy), UrlPrefix (..),
                                defElmImports, defElmOptions,
                                generateElmForAPIWith)
 import           CrudEx.Api 
@@ -56,7 +56,7 @@ instance forall a . (TypeName a) =>  ElmType (Entity Int a) where
 
 
 myElmOpts :: ElmOptions
-myElmOpts = defElmOptions { urlPrefix = "http://localhost:3000" }
+myElmOpts = defElmOptions { urlPrefix = Dynamic }
 
 spec :: Spec
 spec = Spec ["FromServant", "ThingApi"]
