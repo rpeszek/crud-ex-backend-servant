@@ -2,6 +2,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeOperators   #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE DeriveGeneric     #-}
 
 module CrudEx.Api.Thing
     ( Thing (..),
@@ -12,6 +13,7 @@ module CrudEx.Api.Thing
 
 import Data.Aeson
 import Data.Aeson.TH
+import GHC.Generics (Generic)  -- only needed (convenient) for Elm compilation
 import Servant
 import Data.Text (Text)
 import Data.Text as T
@@ -34,7 +36,7 @@ data Thing = Thing
   { name :: Text
   , description :: Text
   , userId :: Maybe Int
-  } deriving Show
+  } deriving (Show, Eq, Generic)
 
 type ThingEntity = Entity ThingId Thing
 

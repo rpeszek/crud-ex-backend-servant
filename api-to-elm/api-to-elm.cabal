@@ -1,0 +1,48 @@
+name:                api-to-elm
+version:             0.1.0.0
+license:             BSD3
+license-file:        ../LICENSE
+author:              Robert Peszek
+copyright:           2017 Robert Peszek
+category:            Web
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:    src-api
+  exposed-modules:     CrudEx.Api.Common
+                     , CrudEx.Api.User 
+                     , CrudEx.Api.Thing
+                     , CrudEx.Api.ElmConfig
+                     , CrudEx.Api.ElmConfig.Logger
+                     , CrudEx.Api
+  build-depends:       base >= 4.7 && < 5
+                     , text
+                     , aeson
+                     , either
+                     , servant-server
+                     , servant-lucid
+                     , servant-elm
+                     , wai
+                     , wai-cors
+                     , wai-extra
+                     , warp
+                     , transformers
+                     , stm
+                     , stm-containers
+                     , list-t
+                     , lucid
+                     , neat-interpolation
+                     , elm-export
+  default-language:    Haskell2010
+
+executable api-to-elm-exe
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , api-to-elm
+                     , servant-elm
+                     , elm-export
+  default-language:    Haskell2010
