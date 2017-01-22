@@ -9883,8 +9883,8 @@ var _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$deleteThingsByThingId = F
 				expect: _elm_lang$http$Http$expectStringResponse(
 					function (_p0) {
 						var _p1 = _p0;
-						return _elm_lang$core$String$isEmpty(_p1.body) ? _elm_lang$core$Result$Ok(
-							{ctor: '_Tuple0'}) : _elm_lang$core$Result$Err('Expected the response body to be empty');
+						return _elm_lang$core$Result$Ok(
+							{ctor: '_Tuple0'});
 					}),
 				timeout: _elm_lang$core$Maybe$Nothing,
 				withCredentials: false

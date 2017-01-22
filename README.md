@@ -8,6 +8,7 @@ when server is restarted.
 * API compiles to Elm. Code to do that is in api-to-elm folder (separate stack/cabal project, see [That README](api-to-elm/README.md)) (Work in progress.)
 
 __TODOs:__ 
+* resolve empty response incompatibility between generated Elm and Servant (https://github.com/haskell-servant/servant/issues/69 ?)
 * compile Api to swagger
 * compile to a Haskell client 
 * compile to other languages?

@@ -58,4 +58,6 @@ putThingH store thingId thing = do
            return thing
 
 deleteThingH :: MonadIO m => ThingStore -> ThingId -> m ()
-deleteThingH store thingId = liftIO . atomically . StmMap.delete thingId $ store
+deleteThingH store thingId = do 
+           liftIO . atomically . StmMap.delete thingId $ store
+           return ()
