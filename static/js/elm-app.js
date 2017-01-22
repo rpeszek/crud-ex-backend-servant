@@ -9856,6 +9856,314 @@ var _evancz$url_parser$UrlParser$intParam = function (name) {
 	return A2(_evancz$url_parser$UrlParser$customParam, name, _evancz$url_parser$UrlParser$intParamHelp);
 };
 
+var _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$deleteThingsByThingId = F2(
+	function (urlBase, thingId) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'DELETE',
+				headers: {ctor: '[]'},
+				url: A2(
+					_elm_lang$core$String$join,
+					'/',
+					{
+						ctor: '::',
+						_0: urlBase,
+						_1: {
+							ctor: '::',
+							_0: 'things',
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$http$Http$encodeUri(
+									_elm_lang$core$Basics$toString(thingId)),
+								_1: {ctor: '[]'}
+							}
+						}
+					}),
+				body: _elm_lang$http$Http$emptyBody,
+				expect: _elm_lang$http$Http$expectStringResponse(
+					function (_p0) {
+						var _p1 = _p0;
+						return _elm_lang$core$String$isEmpty(_p1.body) ? _elm_lang$core$Result$Ok(
+							{ctor: '_Tuple0'}) : _elm_lang$core$Result$Err('Expected the response body to be empty');
+					}),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
+	});
+var _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$encodeThing = function (x) {
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'name',
+				_1: _elm_lang$core$Json_Encode$string(x.name)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'description',
+					_1: _elm_lang$core$Json_Encode$string(x.description)
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'userId',
+						_1: function (_p2) {
+							return A2(
+								_elm_lang$core$Maybe$withDefault,
+								_elm_lang$core$Json_Encode$null,
+								A2(_elm_lang$core$Maybe$map, _elm_lang$core$Json_Encode$int, _p2));
+						}(x.userId)
+					},
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+var _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$Thing = F3(
+	function (a, b, c) {
+		return {name: a, description: b, userId: c};
+	});
+var _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$decodeThing = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'userId',
+	_elm_lang$core$Json_Decode$maybe(_elm_lang$core$Json_Decode$int),
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'description',
+		_elm_lang$core$Json_Decode$string,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'name',
+			_elm_lang$core$Json_Decode$string,
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$Thing))));
+var _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$getThingsByThingId = F2(
+	function (urlBase, thingId) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'GET',
+				headers: {ctor: '[]'},
+				url: A2(
+					_elm_lang$core$String$join,
+					'/',
+					{
+						ctor: '::',
+						_0: urlBase,
+						_1: {
+							ctor: '::',
+							_0: 'things',
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$http$Http$encodeUri(
+									_elm_lang$core$Basics$toString(thingId)),
+								_1: {ctor: '[]'}
+							}
+						}
+					}),
+				body: _elm_lang$http$Http$emptyBody,
+				expect: _elm_lang$http$Http$expectJson(
+					_elm_lang$core$Json_Decode$maybe(_rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$decodeThing)),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
+	});
+var _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$putThingsByThingId = F3(
+	function (urlBase, thingId, body) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'PUT',
+				headers: {ctor: '[]'},
+				url: A2(
+					_elm_lang$core$String$join,
+					'/',
+					{
+						ctor: '::',
+						_0: urlBase,
+						_1: {
+							ctor: '::',
+							_0: 'things',
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$http$Http$encodeUri(
+									_elm_lang$core$Basics$toString(thingId)),
+								_1: {ctor: '[]'}
+							}
+						}
+					}),
+				body: _elm_lang$http$Http$jsonBody(
+					_rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$encodeThing(body)),
+				expect: _elm_lang$http$Http$expectJson(_rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$decodeThing),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
+	});
+var _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$ThingEntity = F2(
+	function (a, b) {
+		return {id: a, entity: b};
+	});
+var _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$decodeThingEntity = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'entity',
+	_rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$decodeThing,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'id',
+		_elm_lang$core$Json_Decode$int,
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$ThingEntity)));
+var _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$getThings = function (urlBase) {
+	return _elm_lang$http$Http$request(
+		{
+			method: 'GET',
+			headers: {ctor: '[]'},
+			url: A2(
+				_elm_lang$core$String$join,
+				'/',
+				{
+					ctor: '::',
+					_0: urlBase,
+					_1: {
+						ctor: '::',
+						_0: 'things',
+						_1: {ctor: '[]'}
+					}
+				}),
+			body: _elm_lang$http$Http$emptyBody,
+			expect: _elm_lang$http$Http$expectJson(
+				_elm_lang$core$Json_Decode$list(_rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$decodeThingEntity)),
+			timeout: _elm_lang$core$Maybe$Nothing,
+			withCredentials: false
+		});
+};
+var _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$postThings = F2(
+	function (urlBase, body) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'POST',
+				headers: {ctor: '[]'},
+				url: A2(
+					_elm_lang$core$String$join,
+					'/',
+					{
+						ctor: '::',
+						_0: urlBase,
+						_1: {
+							ctor: '::',
+							_0: 'things',
+							_1: {ctor: '[]'}
+						}
+					}),
+				body: _elm_lang$http$Http$jsonBody(
+					_rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$encodeThing(body)),
+				expect: _elm_lang$http$Http$expectJson(_rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$decodeThingEntity),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
+	});
+
+var _rpeszek$crud_ex_frontend_elm$Thing_Model$thingJsonEncoder = _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$encodeThing;
+var _rpeszek$crud_ex_frontend_elm$Thing_Model$thingEntityJsonDecoder = _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$decodeThingEntity;
+var _rpeszek$crud_ex_frontend_elm$Thing_Model$thingJsonDecoder = _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$decodeThing;
+var _rpeszek$crud_ex_frontend_elm$Thing_Model$emptyThing = {name: '', description: '', userId: _elm_lang$core$Maybe$Nothing};
+
+var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpPUT = {ctor: 'HttpPUT'};
+var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpGET = {ctor: 'HttpGET'};
+var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpPOST = {ctor: 'HttpPOST'};
+var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpPATCH = {ctor: 'HttpPATCH'};
+var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpDELETE = {ctor: 'HttpDELETE'};
+var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpResErr = F3(
+	function (a, b, c) {
+		return {ctor: 'HttpResErr', _0: a, _1: b, _2: c};
+	});
+var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpResOk = F2(
+	function (a, b) {
+		return {ctor: 'HttpResOk', _0: a, _1: b};
+	});
+var _rpeszek$crud_ex_frontend_elm$Util_Http$resultConverter = F3(
+	function (method, errMsg, res) {
+		var _p0 = res;
+		if (_p0.ctor === 'Ok') {
+			return A2(_rpeszek$crud_ex_frontend_elm$Util_Http$HttpResOk, method, _p0._0);
+		} else {
+			return A3(_rpeszek$crud_ex_frontend_elm$Util_Http$HttpResErr, method, errMsg, _p0._0);
+		}
+	});
+
+var _rpeszek$crud_ex_frontend_elm$StaticConfig$serverBase = '';
+
+var _rpeszek$crud_ex_frontend_elm$ServerRoutes$thingR = function (tId) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_rpeszek$crud_ex_frontend_elm$StaticConfig$serverBase,
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'/things/',
+			_elm_lang$core$Basics$toString(tId)));
+};
+var _rpeszek$crud_ex_frontend_elm$ServerRoutes$thingsR = A2(_elm_lang$core$Basics_ops['++'], _rpeszek$crud_ex_frontend_elm$StaticConfig$serverBase, '/things');
+
+var _rpeszek$crud_ex_frontend_elm$Thing_Http$deleteThing = function (tId) {
+	var request = A2(_rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$deleteThingsByThingId, _rpeszek$crud_ex_frontend_elm$StaticConfig$serverBase, tId);
+	var errMsg = A2(
+		_elm_lang$core$Basics_ops['++'],
+		'Error Deleting Thing ',
+		_elm_lang$core$Basics$toString(tId));
+	return A2(
+		_elm_lang$http$Http$send,
+		A2(_rpeszek$crud_ex_frontend_elm$Util_Http$resultConverter, _rpeszek$crud_ex_frontend_elm$Util_Http$HttpDELETE, errMsg),
+		request);
+};
+var _rpeszek$crud_ex_frontend_elm$Thing_Http$postThing = function (thing) {
+	var request = A2(_rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$postThings, _rpeszek$crud_ex_frontend_elm$StaticConfig$serverBase, thing);
+	var errMsg = A2(
+		_elm_lang$core$Basics_ops['++'],
+		'Error Creating Thing ',
+		_elm_lang$core$Basics$toString(thing));
+	return A2(
+		_elm_lang$http$Http$send,
+		A2(_rpeszek$crud_ex_frontend_elm$Util_Http$resultConverter, _rpeszek$crud_ex_frontend_elm$Util_Http$HttpPOST, errMsg),
+		request);
+};
+var _rpeszek$crud_ex_frontend_elm$Thing_Http$putThing = F2(
+	function (tId, thing) {
+		var request = A3(_rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$putThingsByThingId, _rpeszek$crud_ex_frontend_elm$StaticConfig$serverBase, tId, thing);
+		var errMsg = A2(
+			_elm_lang$core$Basics_ops['++'],
+			'Error Saving Thing ',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Basics$toString(tId),
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					': ',
+					_elm_lang$core$Basics$toString(thing))));
+		return A2(
+			_elm_lang$http$Http$send,
+			A2(_rpeszek$crud_ex_frontend_elm$Util_Http$resultConverter, _rpeszek$crud_ex_frontend_elm$Util_Http$HttpPUT, errMsg),
+			request);
+	});
+var _rpeszek$crud_ex_frontend_elm$Thing_Http$getThings = function () {
+	var request = _rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$getThings(_rpeszek$crud_ex_frontend_elm$StaticConfig$serverBase);
+	var errMsg = 'Error Retrieving Things ';
+	return A2(
+		_elm_lang$http$Http$send,
+		A2(_rpeszek$crud_ex_frontend_elm$Util_Http$resultConverter, _rpeszek$crud_ex_frontend_elm$Util_Http$HttpGET, errMsg),
+		request);
+}();
+var _rpeszek$crud_ex_frontend_elm$Thing_Http$getThing = function (tId) {
+	var request = A2(_rpeszek$crud_ex_frontend_elm$FromServant_ThingApi$getThingsByThingId, _rpeszek$crud_ex_frontend_elm$StaticConfig$serverBase, tId);
+	var errMsg = A2(
+		_elm_lang$core$Basics_ops['++'],
+		'Error Retrieving Thing ',
+		_elm_lang$core$Basics$toString(tId));
+	return A2(
+		_elm_lang$http$Http$send,
+		A2(_rpeszek$crud_ex_frontend_elm$Util_Http$resultConverter, _rpeszek$crud_ex_frontend_elm$Util_Http$HttpGET, errMsg),
+		request);
+};
+
 var _rpeszek$crud_ex_frontend_elm$Reuse_Model_ModelPlus$setModel = F2(
 	function (inner, model) {
 		return _elm_lang$core$Native_Utils.update(
@@ -9886,214 +10194,6 @@ var _rpeszek$crud_ex_frontend_elm$Reuse_Model_ModelPlus$ModelPlus = F3(
 	function (a, b, c) {
 		return {id: a, model: b, err: c};
 	});
-
-var _rpeszek$crud_ex_frontend_elm$Thing_Model$thingJsonEncoder = function (thing) {
-	var list = {
-		ctor: '::',
-		_0: {
-			ctor: '_Tuple2',
-			_0: 'name',
-			_1: _elm_lang$core$Json_Encode$string(thing.name)
-		},
-		_1: {
-			ctor: '::',
-			_0: {
-				ctor: '_Tuple2',
-				_0: 'description',
-				_1: _elm_lang$core$Json_Encode$string(thing.description)
-			},
-			_1: {ctor: '[]'}
-		}
-	};
-	return _elm_lang$core$Json_Encode$object(list);
-};
-var _rpeszek$crud_ex_frontend_elm$Thing_Model$emptyThing = {name: '', description: '', userId: _elm_lang$core$Maybe$Nothing};
-var _rpeszek$crud_ex_frontend_elm$Thing_Model$ThingEntity = F2(
-	function (a, b) {
-		return {id: a, entity: b};
-	});
-var _rpeszek$crud_ex_frontend_elm$Thing_Model$Thing = F3(
-	function (a, b, c) {
-		return {name: a, description: b, userId: c};
-	});
-var _rpeszek$crud_ex_frontend_elm$Thing_Model$thingJsonDecoder = A3(
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'userId',
-	_elm_lang$core$Json_Decode$nullable(_elm_lang$core$Json_Decode$int),
-	A3(
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'description',
-		_elm_lang$core$Json_Decode$string,
-		A3(
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-			'name',
-			_elm_lang$core$Json_Decode$string,
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_rpeszek$crud_ex_frontend_elm$Thing_Model$Thing))));
-var _rpeszek$crud_ex_frontend_elm$Thing_Model$thingEntityJsonDecoder = A3(
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'entity',
-	_rpeszek$crud_ex_frontend_elm$Thing_Model$thingJsonDecoder,
-	A3(
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'id',
-		_elm_lang$core$Json_Decode$int,
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_rpeszek$crud_ex_frontend_elm$Thing_Model$ThingEntity)));
-
-var _rpeszek$crud_ex_frontend_elm$Util_Http$delete = function (url) {
-	var requestParams = {
-		method: 'DELETE',
-		headers: {
-			ctor: '::',
-			_0: A2(_elm_lang$http$Http$header, 'Content-Type', 'application/json; charset=UTF-8'),
-			_1: {ctor: '[]'}
-		},
-		url: url,
-		body: _elm_lang$http$Http$emptyBody,
-		expect: _elm_lang$http$Http$expectStringResponse(
-			function (_p0) {
-				return _elm_lang$core$Result$Ok(
-					{ctor: '_Tuple0'});
-			}),
-		timeout: _elm_lang$core$Maybe$Nothing,
-		withCredentials: false
-	};
-	return _elm_lang$http$Http$request(requestParams);
-};
-var _rpeszek$crud_ex_frontend_elm$Util_Http$post = F3(
-	function (url, encoder, decoder) {
-		return A3(
-			_elm_lang$http$Http$post,
-			url,
-			_elm_lang$http$Http$jsonBody(encoder),
-			decoder);
-	});
-var _rpeszek$crud_ex_frontend_elm$Util_Http$put = F3(
-	function (url, encoder, decoder) {
-		var requestParams = {
-			method: 'PUT',
-			headers: {
-				ctor: '::',
-				_0: A2(_elm_lang$http$Http$header, 'Content-Type', 'application/json; charset=UTF-8'),
-				_1: {ctor: '[]'}
-			},
-			url: url,
-			body: _elm_lang$http$Http$jsonBody(encoder),
-			expect: _elm_lang$http$Http$expectJson(decoder),
-			timeout: _elm_lang$core$Maybe$Nothing,
-			withCredentials: false
-		};
-		return _elm_lang$http$Http$request(requestParams);
-	});
-var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpPUT = {ctor: 'HttpPUT'};
-var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpGET = {ctor: 'HttpGET'};
-var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpPOST = {ctor: 'HttpPOST'};
-var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpPATCH = {ctor: 'HttpPATCH'};
-var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpDELETE = {ctor: 'HttpDELETE'};
-var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpResErr = F3(
-	function (a, b, c) {
-		return {ctor: 'HttpResErr', _0: a, _1: b, _2: c};
-	});
-var _rpeszek$crud_ex_frontend_elm$Util_Http$HttpResOk = F2(
-	function (a, b) {
-		return {ctor: 'HttpResOk', _0: a, _1: b};
-	});
-var _rpeszek$crud_ex_frontend_elm$Util_Http$resultConverter = F3(
-	function (method, errMsg, res) {
-		var _p1 = res;
-		if (_p1.ctor === 'Ok') {
-			return A2(_rpeszek$crud_ex_frontend_elm$Util_Http$HttpResOk, method, _p1._0);
-		} else {
-			return A3(_rpeszek$crud_ex_frontend_elm$Util_Http$HttpResErr, method, errMsg, _p1._0);
-		}
-	});
-
-var _rpeszek$crud_ex_frontend_elm$StaticConfig$serverBase = '';
-
-var _rpeszek$crud_ex_frontend_elm$ServerRoutes$thingR = function (tId) {
-	return A2(
-		_elm_lang$core$Basics_ops['++'],
-		_rpeszek$crud_ex_frontend_elm$StaticConfig$serverBase,
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			'/things/',
-			_elm_lang$core$Basics$toString(tId)));
-};
-var _rpeszek$crud_ex_frontend_elm$ServerRoutes$thingsR = A2(_elm_lang$core$Basics_ops['++'], _rpeszek$crud_ex_frontend_elm$StaticConfig$serverBase, '/things');
-
-var _rpeszek$crud_ex_frontend_elm$Thing_Http$deleteThing = function (tId) {
-	var request = _rpeszek$crud_ex_frontend_elm$Util_Http$delete(
-		_rpeszek$crud_ex_frontend_elm$ServerRoutes$thingR(tId));
-	var errMsg = A2(
-		_elm_lang$core$Basics_ops['++'],
-		'Error Deleting Thing ',
-		_elm_lang$core$Basics$toString(tId));
-	return A2(
-		_elm_lang$http$Http$send,
-		A2(_rpeszek$crud_ex_frontend_elm$Util_Http$resultConverter, _rpeszek$crud_ex_frontend_elm$Util_Http$HttpDELETE, errMsg),
-		request);
-};
-var _rpeszek$crud_ex_frontend_elm$Thing_Http$postThing = function (thing) {
-	var request = A3(
-		_rpeszek$crud_ex_frontend_elm$Util_Http$post,
-		_rpeszek$crud_ex_frontend_elm$ServerRoutes$thingsR,
-		_rpeszek$crud_ex_frontend_elm$Thing_Model$thingJsonEncoder(thing),
-		_rpeszek$crud_ex_frontend_elm$Thing_Model$thingEntityJsonDecoder);
-	var errMsg = A2(
-		_elm_lang$core$Basics_ops['++'],
-		'Error Creating Thing ',
-		_elm_lang$core$Basics$toString(thing));
-	return A2(
-		_elm_lang$http$Http$send,
-		A2(_rpeszek$crud_ex_frontend_elm$Util_Http$resultConverter, _rpeszek$crud_ex_frontend_elm$Util_Http$HttpPOST, errMsg),
-		request);
-};
-var _rpeszek$crud_ex_frontend_elm$Thing_Http$putThing = F2(
-	function (tId, thing) {
-		var request = A3(
-			_rpeszek$crud_ex_frontend_elm$Util_Http$put,
-			_rpeszek$crud_ex_frontend_elm$ServerRoutes$thingR(tId),
-			_rpeszek$crud_ex_frontend_elm$Thing_Model$thingJsonEncoder(thing),
-			_rpeszek$crud_ex_frontend_elm$Thing_Model$thingJsonDecoder);
-		var errMsg = A2(
-			_elm_lang$core$Basics_ops['++'],
-			'Error Saving Thing ',
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_elm_lang$core$Basics$toString(tId),
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					': ',
-					_elm_lang$core$Basics$toString(thing))));
-		return A2(
-			_elm_lang$http$Http$send,
-			A2(_rpeszek$crud_ex_frontend_elm$Util_Http$resultConverter, _rpeszek$crud_ex_frontend_elm$Util_Http$HttpPUT, errMsg),
-			request);
-	});
-var _rpeszek$crud_ex_frontend_elm$Thing_Http$getThings = function () {
-	var request = A2(
-		_elm_lang$http$Http$get,
-		_rpeszek$crud_ex_frontend_elm$ServerRoutes$thingsR,
-		_elm_lang$core$Json_Decode$list(_rpeszek$crud_ex_frontend_elm$Thing_Model$thingEntityJsonDecoder));
-	var errMsg = 'Error Retrieving Things ';
-	return A2(
-		_elm_lang$http$Http$send,
-		A2(_rpeszek$crud_ex_frontend_elm$Util_Http$resultConverter, _rpeszek$crud_ex_frontend_elm$Util_Http$HttpGET, errMsg),
-		request);
-}();
-var _rpeszek$crud_ex_frontend_elm$Thing_Http$getThing = function (tId) {
-	var request = A2(
-		_elm_lang$http$Http$get,
-		_rpeszek$crud_ex_frontend_elm$ServerRoutes$thingR(tId),
-		_rpeszek$crud_ex_frontend_elm$Thing_Model$thingJsonDecoder);
-	var errMsg = A2(
-		_elm_lang$core$Basics_ops['++'],
-		'Error Retrieving Thing ',
-		_elm_lang$core$Basics$toString(tId));
-	return A2(
-		_elm_lang$http$Http$send,
-		A2(_rpeszek$crud_ex_frontend_elm$Util_Http$resultConverter, _rpeszek$crud_ex_frontend_elm$Util_Http$HttpGET, errMsg),
-		request);
-};
 
 var _rpeszek$crud_ex_frontend_elm$Reuse_Model_ModelEntity$setElements = F2(
 	function (newEls, model) {
@@ -10162,11 +10262,19 @@ var _rpeszek$crud_ex_frontend_elm$Reuse_Edit_Message$updateEditModel = F3(
 			case 'GetHttpResult':
 				var _p3 = _p0._0;
 				if (_p3.ctor === 'HttpResOk') {
-					return {
-						ctor: '_Tuple2',
-						_0: A2(_rpeszek$crud_ex_frontend_elm$Reuse_Model_ModelPlus$setModel, _p3._1, model),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
+					if (_p3._1.ctor === 'Just') {
+						return {
+							ctor: '_Tuple2',
+							_0: A2(_rpeszek$crud_ex_frontend_elm$Reuse_Model_ModelPlus$setModel, _p3._1._0, model),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					} else {
+						return {
+							ctor: '_Tuple2',
+							_0: A3(_rpeszek$crud_ex_frontend_elm$Reuse_Model_ModelPlus$setErr, 'Invalid id', _elm_lang$core$Maybe$Nothing, model),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					}
 				} else {
 					return {
 						ctor: '_Tuple2',
@@ -10372,11 +10480,19 @@ var _rpeszek$crud_ex_frontend_elm$Reuse_Read_Message$updateReadModel = F3(
 				case 'GetHttpResult':
 					var _p3 = _p1._0;
 					if (_p3.ctor === 'HttpResOk') {
-						return {
-							ctor: '_Tuple2',
-							_0: A2(_rpeszek$crud_ex_frontend_elm$Reuse_Model_ModelPlus$setModel, _p3._1, model),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
+						if (_p3._1.ctor === 'Just') {
+							return {
+								ctor: '_Tuple2',
+								_0: A2(_rpeszek$crud_ex_frontend_elm$Reuse_Model_ModelPlus$setModel, _p3._1._0, model),
+								_1: _elm_lang$core$Platform_Cmd$none
+							};
+						} else {
+							return {
+								ctor: '_Tuple2',
+								_0: A3(_rpeszek$crud_ex_frontend_elm$Reuse_Model_ModelPlus$setErr, 'Invalid id', _elm_lang$core$Maybe$Nothing, model),
+								_1: _elm_lang$core$Platform_Cmd$none
+							};
+						}
 					} else {
 						return {
 							ctor: '_Tuple2',
