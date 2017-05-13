@@ -46,7 +46,7 @@ instance ElmType Thing
 -- Custom handling of 'Entity Int a' type
 -- Elm Entity ThingId Thing is typed as ThingEntity
 --
-instance forall a . (TypeName a) =>  ElmType (Entity Int a) where
+instance forall a aid. (TypeName a, EntityId aid) =>  ElmType (Entity aid a) where
   toElmType ent = 
        let aName = T.pack . typename $ (Proxy :: Proxy a) 
            eName = aName `T.append` "Entity"
@@ -54,6 +54,9 @@ instance forall a . (TypeName a) =>  ElmType (Entity Int a) where
          (E.Values (E.ElmField "id" (E.ElmPrimitiveRef E.EInt)) 
                    (E.ElmField "entity" (E.ElmRef aName))))
 
+-- unclear why I need that, making ThingId Generic does not resolve the issue --
+instance ElmType (ThingId) where
+  toElmType _ = E.ElmPrimitive E.EInt
 
 myElmOpts :: ElmOptions
 myElmOpts = defElmOptions { urlPrefix = Dynamic }

@@ -37,14 +37,15 @@ resolver: lts-7.14
 # will not be run. This is useful for tweaking upstream packages.
 packages:
   - location: .
-  - location:
-      git: https://www.github.com/mattjbray/servant-elm
-      commit: a6276d4
-    extra-dep: True
+#  - location:
+#      git: https://www.github.com/mattjbray/servant-elm
+#      commit: a6276d4
+#    extra-dep: True
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
 extra-deps: 
-- elm-export-0.5.0.2
+- servant-elm-0.4.0.1
+- elm-export-0.6.0.1
 - time-1.5.0.1
 
 

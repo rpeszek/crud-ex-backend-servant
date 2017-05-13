@@ -13,6 +13,8 @@ import CrudEx.Api
 import STMContainers.Map as StmMap
 import ListT
 import Control.Monad.IO.Class (liftIO, MonadIO)
+import CrudEx.Api.Common (EntityId(..))
+
 -- import Control.Monad (mapM_)
 
 thingHandlers :: ThingStore -> Server ThingApi
@@ -22,7 +24,7 @@ thingHandlers store = getThingsH store
     :<|> putThingH store
     :<|> deleteThingH store
 
-type ThingStore = StmMap.Map ThingId Thing
+type ThingStore = StmMap.Map Int Thing
 
 initThingStore :: IO ThingStore
 initThingStore = -- StmMap.newIO
@@ -33,8 +35,8 @@ initThingStore = -- StmMap.newIO
          return store
 
 
-pairToThingEntityIso :: (ThingId, Thing) -> ThingEntity
-pairToThingEntityIso (thingId, thing) = Entity thingId thing
+pairToThingEntityIso :: (Int, Thing) -> ThingEntity
+pairToThingEntityIso (thingId, thing) = Entity (fromInternal thingId) thing
 
 --
 -- replaced ExceptT ServantErr IO X with MonadIO m => m X
@@ -47,17 +49,17 @@ postThingH :: MonadIO m => ThingStore -> Thing -> m ThingEntity
 postThingH store thing = liftIO . atomically $ do
                   count <- StmMap.size store
                   StmMap.insert thing count $ store
-                  return $ Entity count thing
+                  return $ Entity (fromInternal count) thing
 
 getThingH :: ThingStore -> ThingId -> ExceptT ServantErr IO (Maybe Thing)
-getThingH store thingId = liftIO . atomically . StmMap.lookup thingId $ store
+getThingH store thingId = liftIO . atomically . StmMap.lookup (toInternal thingId) $ store
 
 putThingH :: MonadIO m => ThingStore -> ThingId -> Thing -> m Thing
 putThingH store thingId thing = do
-           liftIO . atomically . StmMap.insert thing thingId $ store
+           liftIO . atomically . StmMap.insert thing (toInternal thingId) $ store
            return thing
 
 deleteThingH :: MonadIO m => ThingStore -> ThingId -> m ()
 deleteThingH store thingId = do 
-           liftIO . atomically . StmMap.delete thingId $ store
+           liftIO . atomically . StmMap.delete (toInternal thingId) $ store
            return ()

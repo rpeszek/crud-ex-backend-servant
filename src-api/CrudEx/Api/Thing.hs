@@ -17,7 +17,7 @@ import GHC.Generics (Generic)  -- only needed (convenient) for Elm compilation
 import Servant
 import Data.Text (Text)
 import Data.Text as T
-import CrudEx.Api.Common (Entity(..))
+import CrudEx.Api.Common (Entity(..), EntityId(..))
 
 type ThingApi = "things" :> Get '[JSON] [ThingEntity] 
            :<|> "things" :> ReqBody '[JSON] Thing
@@ -30,7 +30,16 @@ type ThingApi = "things" :> Get '[JSON] [ThingEntity]
            :<|> "things"  :> Capture "thingId" ThingId
                          :> Delete '[JSON] ()  
 
-type ThingId = Int
+newtype ThingId = ThingId Int
+   deriving (Show, Eq)
+
+instance EntityId ThingId where
+  toInternal (ThingId id) = id
+  fromInternal = ThingId
+
+instance FromHttpApiData ThingId      
+    where parseUrlPiece x = fmap fromInternal $ parseUrlPiece x 
+
 
 data Thing = Thing
   { name :: Text

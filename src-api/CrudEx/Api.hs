@@ -8,6 +8,7 @@ module CrudEx.Api
       UserApi,
       Thing (..),
       Entity (..),
+      EntityId (..),
       ThingEntity,
       ThingId,
       ThingApi,

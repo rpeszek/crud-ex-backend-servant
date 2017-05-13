@@ -15,7 +15,7 @@ type alias Thing =
 
 type alias ThingEntity =
     { id : Int
-    , entity :Thing
+    , entity : Thing
     }
 
 decodeThing : Decoder Thing
@@ -84,7 +84,7 @@ postThings urlBase body =
         }
 
 getThingsByThingId : String -> Int -> Http.Request (Maybe (Thing))
-getThingsByThingId urlBase thingId =
+getThingsByThingId urlBase capture_thingId =
     Http.request
         { method =
             "GET"
@@ -94,7 +94,7 @@ getThingsByThingId urlBase thingId =
             String.join "/"
                 [ urlBase
                 , "things"
-                , thingId |> toString |> Http.encodeUri
+                , capture_thingId |> toString |> Http.encodeUri
                 ]
         , body =
             Http.emptyBody
@@ -107,7 +107,7 @@ getThingsByThingId urlBase thingId =
         }
 
 putThingsByThingId : String -> Int -> Thing -> Http.Request (Thing)
-putThingsByThingId urlBase thingId body =
+putThingsByThingId urlBase capture_thingId body =
     Http.request
         { method =
             "PUT"
@@ -117,7 +117,7 @@ putThingsByThingId urlBase thingId body =
             String.join "/"
                 [ urlBase
                 , "things"
-                , thingId |> toString |> Http.encodeUri
+                , capture_thingId |> toString |> Http.encodeUri
                 ]
         , body =
             Http.jsonBody (encodeThing body)
@@ -130,7 +130,7 @@ putThingsByThingId urlBase thingId body =
         }
 
 deleteThingsByThingId : String -> Int -> Http.Request (())
-deleteThingsByThingId urlBase thingId =
+deleteThingsByThingId urlBase capture_thingId =
     Http.request
         { method =
             "DELETE"
@@ -140,7 +140,7 @@ deleteThingsByThingId urlBase thingId =
             String.join "/"
                 [ urlBase
                 , "things"
-                , thingId |> toString |> Http.encodeUri
+                , capture_thingId |> toString |> Http.encodeUri
                 ]
         , body =
             Http.emptyBody

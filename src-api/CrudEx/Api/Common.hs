@@ -3,6 +3,7 @@
 
 module CrudEx.Api.Common
     ( Entity (..)
+    , EntityId (..)
     ) where
 
 import Data.Aeson
@@ -15,6 +16,10 @@ data Entity aid a = Entity
    , entity  :: a
    } deriving Show
 
-instance forall aid a . (ToJSON aid, ToJSON a) => ToJSON (Entity aid a) where
+instance forall aid a . (EntityId aid, ToJSON a) => ToJSON (Entity aid a) where
      toJSON (Entity eid entity) =
-        object ["id" .= eid, "entity" .= entity]
+        object ["id" .= toInternal eid, "entity" .= entity]
+
+class EntityId a where
+  toInternal :: a -> Int 
+  fromInternal :: Int -> a
