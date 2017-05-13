@@ -13,11 +13,11 @@ import CrudEx.Api
 userHandlers :: Server UserApi
 userHandlers = getUsersH
 
-tempUsers :: [UserEntity]
-tempUsers = [ Entity 1 $ User "Alonzo" "Church"
-            , Entity 2 $ User "Alan" "Turing"
+tempUsers :: [EntityT User]
+tempUsers = [ toEntity (fromInternalKey 1) $ User "Alonzo" "Church"
+            , toEntity (fromInternalKey 2) $ User "Alan" "Turing"
             ]
 
-getUsersH :: MonadIO m => m [UserEntity]
+getUsersH :: MonadIO m => m [EntityT User]
 getUsersH = return tempUsers
     

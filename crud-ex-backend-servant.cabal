@@ -43,6 +43,7 @@ library
                      , list-t
                      , lucid
                      , neat-interpolation
+                     , hashable
   default-language:    Haskell2010
 
 executable crud-ex-backend-servant-exe

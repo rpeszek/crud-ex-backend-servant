@@ -13,6 +13,7 @@ import CrudEx.Api
 import STMContainers.Map as StmMap
 import ListT
 import Control.Monad.IO.Class (liftIO, MonadIO)
+import CrudEx.Api.Common (EntityPack(..), EntityT)
 -- import Control.Monad (mapM_)
 
 thingHandlers :: ThingStore -> Server ThingApi
@@ -22,42 +23,42 @@ thingHandlers store = getThingsH store
     :<|> putThingH store
     :<|> deleteThingH store
 
-type ThingStore = StmMap.Map ThingId Thing
+type ThingStore = StmMap.Map (KeyT Thing) Thing
 
 initThingStore :: IO ThingStore
 initThingStore = -- StmMap.newIO
        atomically $ do 
          store <- StmMap.new
-         StmMap.insert (Thing "testName1" "testDesc1" Nothing) 0 store 
-         StmMap.insert (Thing "testName2" "testDesc2" Nothing) 1 store 
+         StmMap.insert (Thing "testName1" "testDesc1" Nothing) (fromInternalKey 0) store 
+         StmMap.insert (Thing "testName2" "testDesc2" Nothing) (fromInternalKey 1) store 
          return store
 
 
-pairToThingEntityIso :: (ThingId, Thing) -> ThingEntity
-pairToThingEntityIso (thingId, thing) = Entity thingId thing
+pairToEntityIso :: (KeyT Thing, Thing) -> EntityT Thing
+pairToEntityIso = uncurry toEntity
 
 --
 -- replaced ExceptT ServantErr IO X with MonadIO m => m X
 --
 
-getThingsH :: MonadIO m => ThingStore -> m [ThingEntity]
-getThingsH store = liftIO . atomically . fmap (fmap pairToThingEntityIso) . ListT.toList . StmMap.stream $ store
+getThingsH :: MonadIO m => ThingStore -> m [EntityT Thing]
+getThingsH store = liftIO . atomically . fmap (fmap pairToEntityIso) . ListT.toList . StmMap.stream $ store
 
-postThingH :: MonadIO m => ThingStore -> Thing -> m ThingEntity
+postThingH :: MonadIO m => ThingStore -> Thing -> m (EntityT Thing)
 postThingH store thing = liftIO . atomically $ do
                   count <- StmMap.size store
-                  StmMap.insert thing count $ store
-                  return $ Entity count thing
+                  StmMap.insert thing (fromInternalKey count) $ store
+                  return $ toEntity (fromInternalKey count) thing
 
-getThingH :: ThingStore -> ThingId -> ExceptT ServantErr IO (Maybe Thing)
+getThingH :: ThingStore -> KeyT Thing -> ExceptT ServantErr IO (Maybe Thing)
 getThingH store thingId = liftIO . atomically . StmMap.lookup thingId $ store
 
-putThingH :: MonadIO m => ThingStore -> ThingId -> Thing -> m Thing
+putThingH :: MonadIO m => ThingStore -> KeyT Thing -> Thing -> m Thing
 putThingH store thingId thing = do
            liftIO . atomically . StmMap.insert thing thingId $ store
            return thing
 
-deleteThingH :: MonadIO m => ThingStore -> ThingId -> m ()
+deleteThingH :: MonadIO m => ThingStore -> KeyT Thing -> m ()
 deleteThingH store thingId = do 
            liftIO . atomically . StmMap.delete thingId $ store
            return ()

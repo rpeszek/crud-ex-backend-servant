@@ -3,13 +3,11 @@
 
 module CrudEx.Api
     ( User (..),
-      UserEntity,
-      UserId,
       UserApi,
       Thing (..),
       Entity (..),
-      ThingEntity,
-      ThingId,
+      EntityPack (..),
+      EntityT,
       ThingApi,
       ElmConfig(..),
       ElmConfigApi,

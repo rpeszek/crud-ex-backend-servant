@@ -3,11 +3,11 @@
 {-# LANGUAGE TypeOperators   #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric     #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module CrudEx.Api.Thing
     ( Thing (..),
-      ThingEntity,
-      ThingId,
       ThingApi
     ) where
 
@@ -17,20 +17,19 @@ import GHC.Generics (Generic)  -- only needed (convenient) for Elm compilation
 import Servant
 import Data.Text (Text)
 import Data.Text as T
-import CrudEx.Api.Common (Entity(..))
+import CrudEx.Api.Common (Entity(..), EntityPack(..), EntityT)
 
-type ThingApi = "things" :> Get '[JSON] [ThingEntity] 
+type ThingApi = "things" :> Get '[JSON] [EntityT Thing] 
            :<|> "things" :> ReqBody '[JSON] Thing
-                         :> Post '[JSON] ThingEntity
-           :<|> "things"  :> Capture "thingId" ThingId 
+                         :> Post '[JSON] (EntityT Thing)
+           :<|> "things"  :> Capture "thingId" (KeyT Thing) 
                          :> Get '[JSON] (Maybe Thing)
-           :<|> "things"  :> Capture "thingId" ThingId 
+           :<|> "things"  :> Capture "thingId" (KeyT Thing) 
                          :> ReqBody '[JSON] Thing 
                          :> Put '[JSON] Thing 
-           :<|> "things"  :> Capture "thingId" ThingId
+           :<|> "things"  :> Capture "thingId" (KeyT Thing)
                          :> Delete '[JSON] ()  
 
-type ThingId = Int
 
 data Thing = Thing
   { name :: Text
@@ -38,6 +37,9 @@ data Thing = Thing
   , userId :: Maybe Int
   } deriving (Show, Eq, Generic)
 
-type ThingEntity = Entity ThingId Thing
-
+instance EntityPack Thing where
+  data KeyT Thing = MkThingId Int deriving (Eq, Show)
+  toInternalKey (MkThingId i) = i 
+  fromInternalKey = MkThingId 
+  
 $(deriveJSON defaultOptions ''Thing)

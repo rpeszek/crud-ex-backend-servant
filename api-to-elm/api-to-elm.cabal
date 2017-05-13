@@ -35,6 +35,7 @@ library
                      , lucid
                      , neat-interpolation
                      , elm-export
+                     , hashable
   default-language:    Haskell2010
 
 executable api-to-elm-exe

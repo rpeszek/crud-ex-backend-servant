@@ -2,11 +2,10 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeOperators   #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module CrudEx.Api.User
     ( User (..),
-      UserEntity,
-      UserId,
       UserApi
     ) where
 
@@ -15,17 +14,18 @@ import Data.Aeson.TH
 import Servant
 import Data.Text (Text)
 import Data.Text as T
-import CrudEx.Api.Common (Entity(..))
+import CrudEx.Api.Common (Entity(..), EntityPack(..), EntityT)
 
-type UserApi = "users" :> Get '[JSON] [UserEntity]
-
-type UserId = Int 
+type UserApi = "users" :> Get '[JSON] [EntityT User]
 
 data User = User
   { userFirstName :: Text
   , userLastName  :: Text
   } deriving (Eq, Show)
 
-type UserEntity = Entity UserId User
+instance EntityPack User where
+  data KeyT User = MkUserId Int deriving (Eq, Show)
+  toInternalKey (MkUserId i) = i 
+  fromInternalKey = MkUserId 
 
 $(deriveJSON defaultOptions ''User)
