@@ -2,6 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE DeriveGeneric #-}
 
 module CrudEx.Api.Common
     ( Entity (..)
@@ -15,11 +16,12 @@ import Data.Text (Text)
 import Data.Text as T
 import Data.Hashable as H
 import Servant as S
+import GHC.Generics (Generic)
 
 data Entity aid a = Entity
    { id :: aid
    , entity  :: a
-   } deriving Show
+   } deriving (Show, Generic)
 
 --TODO remove
 instance forall a . (ToJSON a) => ToJSON (Entity Int a) where

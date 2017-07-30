@@ -1,0 +1,66 @@
+name:                api-to-purs
+version:             0.1.0.0
+license:             BSD3
+license-file:        ../LICENSE
+author:              Robert Peszek
+copyright:           2017 Robert Peszek
+category:            Web
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:    src-api
+  exposed-modules:     CrudEx.Api.Common
+                     , CrudEx.Api.User 
+                     , CrudEx.Api.Thing
+                     , CrudEx.Api.ElmConfig
+                     , CrudEx.Api.ElmConfig.Logger
+                     , CrudEx.Api
+  build-depends:       base >=4.8 && < 6.0
+                     , aeson
+                     , bytestring
+                     , containers
+                     , ghc-mod
+                     , http-api-data
+                     , http-types
+                     , lens
+                     , mainland-pretty
+                     , monad-logger
+                     , mtl
+                     , purescript-bridge
+                     , servant
+                     , servant-server
+                     , servant-purescript
+                     , servant-subscriber
+                     , servant-lucid
+                     , text
+                     , transformers
+                     , wai
+                     , warp
+                     , lucid
+                     , hashable
+                     , neat-interpolation
+  default-language:    Haskell2010
+
+executable api-to-purs-exe
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:        base >=4.8 && < 6.0
+                     , api-to-purs
+                     , aeson
+                     , containers
+                     , filepath
+                     , ghc-mod
+                     , http-api-data
+                     , http-types
+                     , lens
+                     , mainland-pretty
+                     , purescript-bridge
+                     , servant
+                     , servant-foreign
+                     , servant-purescript
+                     , servant-subscriber
+                     , text
+  default-language:    Haskell2010

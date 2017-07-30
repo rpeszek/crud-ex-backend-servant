@@ -3,3 +3,6 @@
 */.stack-work/
 crud-ex-backend-servant.iml
 temp*.txt
+*/output/
+*/output-purs/
+*/Temp/
