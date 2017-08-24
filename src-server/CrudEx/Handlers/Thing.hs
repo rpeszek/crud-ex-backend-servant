@@ -50,7 +50,7 @@ postThingH store thing = liftIO . atomically $ do
                   StmMap.insert thing (fromInternalKey count) $ store
                   return $ toEntity (fromInternalKey count) thing
 
-getThingH :: ThingStore -> KeyT Thing -> ExceptT ServantErr IO (Maybe Thing)
+getThingH :: MonadIO m => ThingStore -> KeyT Thing -> m (Maybe Thing)
 getThingH store thingId = liftIO . atomically . StmMap.lookup thingId $ store
 
 putThingH :: MonadIO m => ThingStore -> KeyT Thing -> Thing -> m Thing
