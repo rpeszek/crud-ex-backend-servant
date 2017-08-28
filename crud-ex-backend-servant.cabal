@@ -35,7 +35,6 @@ library
                      , wai-servlet
                      , wai-servlet-handler-jetty
 -- removed for etlas compilation
---                     , wai-cors
 --                     , wai-extra
 --                     , warp    
                      , servant 
