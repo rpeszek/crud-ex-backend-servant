@@ -25,5 +25,5 @@ type StaticApi = "static" :> Raw
 
 type API = UserApi       :<|> 
            ThingApi      :<|>
-           ElmConfigApi  :<|>
-           StaticApi
+           ElmConfigApi -- :<|>
+          -- StaticApi

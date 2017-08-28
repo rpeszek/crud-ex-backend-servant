@@ -42,8 +42,12 @@ pairToEntityIso = uncurry toEntity
 --
 
 getThingsH :: MonadIO m => ThingStore -> m [EntityT Thing]
-getThingsH store = liftIO . atomically . fmap (fmap pairToEntityIso) . ListT.toList . StmMap.stream $ store
-
+getThingsH store = -- liftIO . atomically . fmap (map pairToEntityIso) . ListT.toList . StmMap.stream $ store
+                liftIO . atomically $ do
+                   --  elems <-  ListT.toList . StmMap.stream $ store 
+                   --let thingEntities = map
+                   return []
+                   
 postThingH :: MonadIO m => ThingStore -> Thing -> m (EntityT Thing)
 postThingH store thing = liftIO . atomically $ do
                   count <- StmMap.size store

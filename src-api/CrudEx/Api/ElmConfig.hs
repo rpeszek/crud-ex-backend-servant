@@ -12,14 +12,14 @@ module CrudEx.Api.ElmConfig (
 import Servant
 import Servant.HTML.Lucid (HTML)
 import Lucid
-import NeatInterpolation (text)
 import Data.Aeson
-import Data.Aeson.TH
+--import Data.Aeson.TH
 import qualified Data.Aeson.Encode as AE
 import Data.Text (Text)
 import Data.Text.Lazy (toStrict)
 import Data.Text.Lazy.Builder (toLazyText)
 import qualified CrudEx.Api.ElmConfig.Logger as L
+import Data.Monoid ((<>))
  
 
 type ElmConfigApi = "elm" :> Get '[HTML] ElmConfig
@@ -44,11 +44,10 @@ toElmScript :: ElmConfig -> Text
 toElmScript elmConfig = 
      let elmProgNm = elmProgName elmConfig
          configJs = toJs elmConfig
-     in [text|
-         var conf = $configJs;
-         var node = document.getElementById('elm-div');
-         var app = Elm.$elmProgNm.embed(node, conf);
-     |]
+     in 
+        "var conf = " <> configJs <> ";" <>
+        "var node = document.getElementById('elm-div');" <>
+        "var app = Elm.$elmProgNm.embed(node, conf);"
 
 instance ToHtml ElmConfig where
   toHtml elmConfig = html_ $ do

@@ -1,26 +1,15 @@
 Example backend CRUD project using Servant.  
 See my CRUD umbrella project:  [typesafe-web-polyglot](https://github.com/rpeszek/typesafe-web-polyglot.git).
 
-__Features:__  
-* Servant Web API for my CRUD 'Thing' example. 
-* Servant server implementation uses STM map as backend for simplicity. The data is lost 
-when server is restarted.
-* API compiles to Elm. Code to do that is in api-to-elm folder (separate stack/cabal project, see separate [ README](api-to-elm/README.md)) 
+__ETA Language:__
+This is Eta language port of this app.
+This version uses embedded jetty server.
+ 
+Work in progress.
+Things are still not fully working.
 
-__TODOs:__ 
-* resolve empty response incompatibility between generated Elm and Servant (https://github.com/haskell-servant/servant/issues/69 ?)
-* compile Api to swagger
-* compile to a Haskell client 
-* compile to other languages?
-* play more with Servant
-* play with persistence (something new and more than STM)
+Util packages are temporary hack to investigate static file serving with Eta servant.
 
-__How to run:__  
 ```
-stack build 
-stack exec crud-ex-backend-servant-exe
+etlas install --dependencies-only
 ```
-To run compiled Elm use: http://localhost:3000/elm  
-This will use servant served HTML page.
-
-To run Elm in elm-reactor, clone [crud-ex-frontend-elm](https://github.com/rpeszek/crud-ex-frontend-elm.git)) 

@@ -27,7 +27,7 @@ defaultEnv :: String
 defaultEnv = "DEV"
 
 defaultPort :: Int 
-defaultPort = 3000
+defaultPort = 9000
 
 readPort :: Maybe String -> Int 
 readPort portM = case portM of 

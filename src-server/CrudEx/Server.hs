@@ -6,8 +6,9 @@ module CrudEx.Server
 
 import Control.Monad.Trans.Except
 import Network.Wai
-import Network.Wai.Handler.Warp (run)
-import Network.Wai.Middleware.RequestLogger (logStdoutDev)
+import Network.Wai.Servlet.Handler.Jetty
+--import Network.Wai.Handler.Warp (run)
+--import Network.Wai.Middleware.RequestLogger (logStdoutDev)
 import Network.Wai.Middleware.Cors (CorsResourcePolicy(..), cors, simpleHeaders)
 import Servant
 import CrudEx.Handlers (handlers, initStore, AppStore)
@@ -21,17 +22,17 @@ api :: Proxy API
 api = Proxy
 
 runApp :: Int -> Bool -> IO ()
-runApp port elmCors = 
-  let corsMiddlewhere = if elmCors then elmReactorCors else id
+runApp port cors = 
+  let corsMiddlewhere = if cors then developerCors else id
   in do
-       appStore <- initStore
-       run port $ corsMiddlewhere $ logStdoutDev $ app appStore -- run port app thingStore
+     appStore <- initStore
+     run port $ corsMiddlewhere {- $ logStdoutDev -} $ app appStore
 
-elmReactorCors :: Middleware
-elmReactorCors = cors $ const (Just elmReactorResourcePolicy)
+developerCors :: Middleware
+developerCors = cors $ const (Just developerResourcePolicy)
 
-elmReactorResourcePolicy :: CorsResourcePolicy
-elmReactorResourcePolicy =
+developerResourcePolicy :: CorsResourcePolicy
+developerResourcePolicy =
     CorsResourcePolicy
         { corsOrigins = Nothing -- gives you /*
         , corsMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTION"]

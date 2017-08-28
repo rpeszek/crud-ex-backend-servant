@@ -12,7 +12,7 @@ module CrudEx.Api.Thing
     ) where
 
 import Data.Aeson
-import Data.Aeson.TH
+--import Data.Aeson.TH
 import GHC.Generics (Generic)  -- only needed (convenient) for Elm compilation
 import Servant
 import Data.Text (Text)
@@ -41,5 +41,7 @@ instance EntityPack Thing where
   data KeyT Thing = MkThingId Int deriving (Eq, Show)
   toInternalKey (MkThingId i) = i 
   fromInternalKey = MkThingId 
-  
-$(deriveJSON defaultOptions ''Thing)
+
+instance FromJSON Thing
+instance ToJSON Thing
+-- $(deriveJSON defaultOptions ''Thing)

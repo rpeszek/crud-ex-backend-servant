@@ -3,7 +3,7 @@
 module CrudEx.Api.ElmConfig.Logger where
 
 import Data.Aeson
-import Data.Aeson.TH
+--import Data.Aeson.TH
 import GHC.Generics (Generic)
 import Servant
 -- import Data.Text (Text)

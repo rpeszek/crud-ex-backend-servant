@@ -7,6 +7,7 @@ module CrudEx.Handlers
     ) where
 
 import Servant
+--import Servant.Utils.StaticFiles (serveserveDirectoryFileServer)
 import CrudEx.Api (API)
 import CrudEx.Handlers.User as UserH
 import CrudEx.Handlers.Thing as ThingH
@@ -20,5 +21,5 @@ initStore = ThingH.initThingStore
 handlers :: AppStore -> Server API
 handlers thingStore = UserH.userHandlers              :<|> 
                       ThingH.thingHandlers thingStore :<|>
-                      ElmConfigH.elmConfigHandlers    :<|> 
-                      serveDirectory "static"
+                      ElmConfigH.elmConfigHandlers  --  :<|> 
+                     -- serveDirectory "static"

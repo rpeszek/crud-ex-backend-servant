@@ -10,7 +10,7 @@ module CrudEx.Api.Common
     ) where
 
 import Data.Aeson
-import Data.Aeson.TH
+--import Data.Aeson.TH
 import Data.Text (Text)
 import Data.Text as T
 import Data.Hashable as H
