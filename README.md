@@ -1,7 +1,7 @@
 Example backend CRUD project using Servant.  
 See my CRUD umbrella project:  [typesafe-web-polyglot](https://github.com/rpeszek/typesafe-web-polyglot.git).
 
-__ETA Language:__
+## Eta Language  
 This is Eta language port of this app.
 This version uses embedded jetty server.
 
