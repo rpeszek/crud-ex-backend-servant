@@ -4,12 +4,13 @@ See my CRUD umbrella project:  [typesafe-web-polyglot](https://github.com/rpesze
 __ETA Language:__
 This is Eta language port of this app.
 This version uses embedded jetty server.
- 
-Work in progress.
-Things are still not fully working.
 
-Util packages are temporary hack to investigate static file serving with Eta servant.
+May require latest copy of (master) eta (as of 08/30/2015). 
+(Unless this is already some time in the future and eta version is > 0.0.9b2 :).)
 
-```
-etlas install --dependencies-only
-```
+Currently version of eta's port of servant-sever does not implemented static file serving yet.
+So this branch cannot serve css/js files but works fine to serve json as a separate server (with CORS) 
+for my Elm and PureScript frontends. 
+
+Util modules are a temporary hack to investigate static file serving with Eta servant and
+are work in progress.
