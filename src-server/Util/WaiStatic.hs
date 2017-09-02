@@ -19,10 +19,10 @@ import qualified Safe as SF
 
 -- | Temporary hack since directory package currently does not build for me
 foreign import java unsafe "@static patch.Utils.isReadableAndExists"
-   isReadableAndExists :: String -> IO Bool
+   jIsReadableAndExists :: String -> IO Bool
 -- | Temporary hack LBS.length errors out
 foreign import java unsafe "@static patch.Utils.fileSize"
-   fileSize :: String -> IO Int64
+   jFileSize :: String -> IO Int64
 
 data StaticSettings = StaticSettings FilePath
 
@@ -40,14 +40,14 @@ staticAppPieces (StaticSettings root) pieces req respond =
          contentType = M.mimeByExt M.defaultMimeMap "application/text" (SF.lastDef "" pieces)
      in do 
         -- current problems with building directory package, use Java instead:
-        fileExists <- isReadableAndExists filePath
+        fileExists <- jIsReadableAndExists filePath
         res <- if fileExists 
                then do
                    contentBody <- LBS.readFile filePath
                    -- currently this exceptions:
                    -- let contentLength = LBS.length contentBody
                    -- use Java instead: 
-                   contentLength <- fileSize filePath
+                   contentLength <- jFileSize filePath
                    respond $ W.responseLBS H.status200 
                             [("Content-Type", contentType), 
                              ("Content-Length", BS.pack $ show $ contentLength)] 
