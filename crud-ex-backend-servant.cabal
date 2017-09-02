@@ -44,7 +44,8 @@ library
 -- extras to reimplement static file serving
                      , filepath
                      , mime-types
-                     , blaze-builder
+--                     , blaze-builder
+                     , safe
 --                     , directory
 --
                      , aeson
