@@ -47,7 +47,7 @@ toElmScript elmConfig =
      in 
         "var conf = " <> configJs <> ";" <>
         "var node = document.getElementById('elm-div');" <>
-        "var app = Elm.$elmProgNm.embed(node, conf);"
+        "var app = Elm." <> elmProgNm <> ".embed(node, conf);"
 
 instance ToHtml ElmConfig where
   toHtml elmConfig = html_ $ do

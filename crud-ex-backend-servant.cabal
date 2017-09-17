@@ -46,7 +46,8 @@ library
                      , mime-types
 --                     , blaze-builder
                      , safe
---                     , directory
+-- 1.3.1.1 has unix dependency and fails to build
+                     , directory >= 1.3.1.0 && < 1.3.1.1
 --
                      , aeson
                      , transformers
