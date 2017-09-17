@@ -26,21 +26,16 @@ defaultFileServerSettings = StaticSettings
 staticApp :: StaticSettings -> W.Application
 staticApp set req = staticAppPieces set (W.pathInfo req) req
 
--- | this now works but prints exceptions
 staticAppPieces :: StaticSettings -> [Text] -> W.Application
 staticAppPieces (StaticSettings root) pieces req respond = 
      let filePath = joinPath $ map T.unpack (T.pack root : pieces)
          contentType = M.mimeByExt M.defaultMimeMap "application/text" (SF.lastDef "" pieces)
      in do 
-        -- current problems with building directory package, use Java instead:
         fileExists <- regularFileExistsAndIsReadable filePath
         res <- if fileExists 
                then do
                    contentBody <- LBS.readFile filePath
-                   -- currently this exceptions:
                    let contentLength = LBS.length contentBody
-                   -- use Java instead:
-                   -- contentLength <- jFileSize filePath
                    respond $ W.responseLBS H.status200
                             [("Content-Type", contentType), 
                              ("Content-Length", BS.pack $ show $ contentLength)] 
