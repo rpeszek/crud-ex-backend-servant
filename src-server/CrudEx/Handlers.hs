@@ -8,7 +8,7 @@ module CrudEx.Handlers
 
 import Servant
 --import Servant.Utils.StaticFiles (serveDirectoryFileServer)
-import Util.StaticFiles (serveDirectoryFileServer)  -- workaround patch
+import qualified Util.StaticFiles as PATCH -- (serveDirectoryFileServer)  -- workaround patch
 import CrudEx.Api (API)
 import CrudEx.Handlers.User as UserH
 import CrudEx.Handlers.Thing as ThingH
@@ -23,4 +23,4 @@ handlers :: AppStore -> Server API
 handlers thingStore = UserH.userHandlers              :<|> 
                       ThingH.thingHandlers thingStore :<|>
                       ElmConfigH.elmConfigHandlers    :<|> 
-                      serveDirectoryFileServer "static"
+                      PATCH.serveDirectoryFileServer "static"

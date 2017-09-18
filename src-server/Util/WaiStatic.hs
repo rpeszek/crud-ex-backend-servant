@@ -3,7 +3,6 @@
 
 module Util.WaiStatic where
 
-import Java
 import qualified Network.Wai as W
 import qualified Network.HTTP.Types as H
 import qualified Network.Mime as M
